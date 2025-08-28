@@ -3,39 +3,27 @@
   <head>
     <meta charset="utf-8">
     <title>Tree Lookup</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
   </head>
   <body>
     <h1>Tree Lookup</h1>
-    <div id="output"></div>
+    <div id="output">Loading…</div>
 
     <script>
-      function getTreeId() {
-        // 1. Hash style: https://.../trees/#/t/T-0001
-        const hash = (location.hash || "").replace(/^#/, "");
-        const hashParts = hash.split("/").filter(Boolean);
-        if (hashParts[0] === "t" && hashParts[1]) {
-          return decodeURIComponent(hashParts[1]);
-        }
-
-        // 2. Clean path style (requires 404.html redirect trick):
-        const orig = sessionStorage.getItem('origPathname') || location.pathname;
-        const pathParts = orig.split("/").filter(Boolean);
-        const tIdx = pathParts.indexOf("t");
-        if (tIdx >= 0 && pathParts[tIdx+1]) {
-          return decodeURIComponent(pathParts[tIdx+1]);
-        }
-
-        // 3. Fallback: query param ?tree_id=T-0001
-        const url = new URL(location.href);
-        return url.searchParams.get("tree_id");
+      function getTreeIdFromHash() {
+        // supports: https://andrewa-silvabio.github.io/trees/#/t/T-0001
+        const hash = (location.hash || "").slice(1); // drop leading #
+        const parts = hash.split("/").filter(Boolean);
+        if (parts[0] === "t" && parts[1]) return decodeURIComponent(parts[1]);
+        return null;
       }
 
-      const treeId = getTreeId();
-      const out = document.getElementById("output");
-      out.innerHTML = treeId
-        ? `<p>Tree ID: <b>${treeId}</b></p>`
-        : "<p>No tree id in URL</p>";
+      // MAIN
+      const id = getTreeIdFromHash();
+      document.getElementById("output").innerHTML =
+        id ? `Tree ID: <b>${id}</b>` : `No tree id in URL`;
     </script>
   </body>
 </html>
+
 
