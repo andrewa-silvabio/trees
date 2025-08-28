@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+  <body>
+    <h1>Tree Lookup</h1>
+    <script>
+      const path = window.location.pathname.split('/');
+      if (path[1] === "t" && path[2]) {
+        document.body.innerHTML += "<p>Tree ID: " + path[2] + "</p>";
+      } else {
+        document.body.innerHTML += "<p>No tree id in URL</p>";
+      }
+    </script>
+  </body>
+</html>
